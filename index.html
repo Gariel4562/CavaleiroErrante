@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Cavaleiro Errante</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .pagina {
+            display: none;
+        }
+        .pagina.ativa {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="inicio" class="pagina ativa">
+
+        <h1>O Cavaleiro errante.</h1>
+
+        <img src="Imagens/protagonista.png" alt="">
+        
+        <p><button onclick="iniciarJogo()">Iniciar Jogo</button></p>
+    </div>
+    <div id="batalha" class="pagina">
+        <h1 id="nomeInimigo"></h1>
+        <img id="imagemInimigo" src="" alt="Imagem do Inimigo">
+        <p id="statusBatalha"></p>
+        <p>
+            <button onclick="lutar()">Atacar</button>
+            <button onclick="ficarParado()">Ficar Parado</button>
+            <button onclick="voltarParaCasa()">Descansar</button>
+        </p>
+    </div>
+    <div id="vestiario" class="pagina">
+        <h1>Vestiário</h1>
+        <p><button onclick="proximoAdversario()">Próximo Adversário</button></p>
+    </div>
+    <div id="casa" class="pagina">
+        <h1>Casa</h1>
+        <p id="statusCasa"></p>
+        <p><button onclick="sairDeCasa()">Sair de Casa</button></p>
+    </div>
+    <div id="gameOver" class="pagina">
+        <h1>Game Over</h1>
+        <img id="imagemGameOver" src="" alt="Imagem de Game Over">
+        <p><button onclick="reiniciarJogo()">Reiniciar Jogo</button></p>
+    </div>
+    <div id="fimJogo" class="pagina">
+        <h1>Parabéns! Você venceu todos os adversários!</h1>
+        <p><button onclick="reiniciarJogo()">Reiniciar Jogo</button></p>
+    </div>
+
+    <script>
+        const maxNivel = 10; // Defina o número máximo de inimigos
+        let nivel = 1;
+        let estadoAtual = "inicio";
+        let hpJogador, hpInimigo, forcaJogador, forcaInimigo;
+        const hpMaxJogador = 150;
+        let pontosAtaqueGanhos = 0;
+        let inimigosForcaIncremento = {}; // Objeto para armazenar a força extra dos inimigos
+        const imagensInimigos = [
+            "Enemies/bandidoInimigo1.png",
+            "Enemies/soldadoInimigo2.png",
+            "Enemies/boboInimigo3.png",
+            "Enemies/gladiatrixInimigo4.png",
+            "Enemies/AmazonInimigo5.png",
+            "Enemies/princesaAmazonaInimigo6.png",
+            "Enemies/guerreiroInimigo7.png",
+            "Enemies/guerreiroDaEscuridaoInimigo8.png",
+            "Enemies/brutosInimigo9.png",
+            "Enemies/julioCesarInimigo10.png",
+            // Adicione mais URLs de imagens conforme necessário para cada nível
+        ];
+        const imagensGameOver = [
+            "Enemies/GameOverBandido.png",
+            "Enemies/gameOverSoldado.png",
+            "Enemies/boboGameOver.png",
+            "Enemies/gameOverGladiatrix.png",
+            "Enemies/gameOverAmazon5.png",
+            "Enemies/gameOverPrincesaAmazona.png",
+            "Enemies/gameOverGuerreiro.png",
+            "Enemies/gameOverGuerreiroDaEscuridao.png",
+            "Enemies/gameOverBrutos.png",
+            "Enemies/gameOverJulioCesar.png",
+            // Adicione mais URLs de imagens de Game Over conforme necessário para cada nível
+        ];
+        const nomesInimigos = [
+            "Primeiro Inimigo: Bandido ",
+            "Segunda adversária: Soldado",
+            "Terceira adversária: Bobo da Corte",
+            "Quarta adversária: Gladiatrix",
+            "Quinta adversária: Amazona",
+            "Sexta adversária: Princesa Amazona",
+            "Sétima adversária: Guerreiro",
+            "Oitava adversária: Guerreiro da Escudidão",
+            "Nona adversária: Brutos",
+            "Décima adversária: Julio Cesar",
+            // Adicione mais nomes conforme necessário
+        ];
+
+        function iniciarJogo() {
+            nivel = 1;
+            hpJogador = hpMaxJogador;
+            forcaJogador = 3 + pontosAtaqueGanhos; // Adiciona pontos de ataque ganhos
+            estadoAtual = "batalha";
+            iniciarBatalha();
+            mostrarPagina('batalha');
+        }
+
+        function iniciarBatalha() {
+            hpInimigo = 100 + nivel * 50; // HP do inimigo aumenta a cada nível
+            forcaInimigo = 2 + nivel * 2 + (inimigosForcaIncremento[nivel] || 0); // Força do inimigo aumenta a cada nível, incluindo incremento
+            atualizarStatus();
+        }
+
+        function lutar() {
+            hpInimigo -= forcaJogador;
+            if (hpInimigo <= 0) {
+                if (nivel === maxNivel) {
+                    estadoAtual = "fimJogo";
+                    mostrarPagina('fimJogo');
+                    return;
+                }
+                estadoAtual = "vestiario";
+                nivel++;
+                pontosAtaqueGanhos++; // Ganha um ponto de ataque
+                mostrarPagina('vestiario');
+                return;
+            }
+
+            hpJogador -= forcaInimigo;
+            if (hpJogador <= 0) {
+                estadoAtual = "gameOver";
+                if (!inimigosForcaIncremento[nivel]) {
+                    inimigosForcaIncremento[nivel] = 1;
+                } else {
+                    inimigosForcaIncremento[nivel]++;
+                }
+                mostrarPagina('gameOver');
+                return;
+            }
+
+            atualizarStatus();
+        }
+
+        function voltarParaCasa() {
+            estadoAtual = "casa";
+            hpJogador = hpMaxJogador; // Regenera o HP do jogador
+            mostrarPagina('casa');
+        }
+
+        function sairDeCasa() {
+            estadoAtual = "batalha";
+            atualizarStatus();
+            mostrarPagina('batalha');
+        }
+
+        function proximoAdversario() {
+            iniciarBatalha();
+            estadoAtual = "batalha";
+            mostrarPagina('batalha');
+        }
+
+        function reiniciarJogo() {
+            estadoAtual = "inicio";
+            mostrarPagina('inicio');
+        }
+
+        function atualizarStatus() {
+            document.getElementById('statusBatalha').innerText = `Nível: ${nivel}\nHP Jogador: ${hpJogador}\nHP Inimigo: ${hpInimigo}`;
+            document.getElementById('imagemInimigo').src = imagensInimigos[nivel - 1];
+            document.getElementById('nomeInimigo').innerText = nomesInimigos[nivel - 1];
+            document.getElementById('statusCasa').innerText = `Seu HP foi regenerado!\nHP Jogador: ${hpJogador}`;
+        }
+
+        function mostrarPagina(pagina) {
+            const paginas = document.querySelectorAll('.pagina');
+            paginas.forEach(p => p.classList.remove('ativa'));
+            document.getElementById(pagina).classList.add('ativa');
+            if (pagina === 'gameOver') {
+                document.getElementById('imagemGameOver').src = imagensGameOver[nivel - 1];
+            }
+        }
+
+        function ficarParado() {
+            hpJogador -= forcaInimigo; // O inimigo ataca o jogador
+            if (hpJogador <= 0) {
+                estadoAtual = "gameOver";
+                if (!inimigosForcaIncremento[nivel]) {
+                    inimigosForcaIncremento[nivel] = 1;
+                } else {
+                    inimigosForcaIncremento[nivel]++;
+                }
+                mostrarPagina('gameOver');
+                return;
+            }
+            atualizarStatus();
+        }
+    </script>
+</body>
+</html>

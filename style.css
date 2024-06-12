@@ -1,0 +1,92 @@
+*{
+    margin:0;
+    padding:0;
+
+}
+body {
+    background-color: rgba(0, 0, 0, 0.27);
+    
+}
+
+h1 {
+    text-align: center;
+    background-color: white;
+    margin-bottom:50px;
+}
+
+main {
+    background-color: black;
+}
+
+p {
+    font-size: 1.5em;
+    margin-bottom:50px;
+    color:red;
+}
+
+#batalha {
+
+    text-align: center;
+    max-width:800px;
+    height:650px;
+    margin:auto;
+    border-radius: 20px 20px 0px 0px;
+    padding:15px;
+    background-color: white;
+
+
+}
+
+#gameOver {
+
+    text-align: center;
+    max-width:800px;
+    height:650px;
+    margin:auto;
+    border-radius: 20px 20px 0px 0px;
+    padding:15px;
+    background-color: white;
+
+}
+
+#vestiario {
+    text-align: center;
+    max-width:800px;
+    height:650px;
+    margin:auto;
+    border-radius: 20px 20px 0px 0px;
+    padding:15px;
+    background-color: white;
+
+}
+
+#casa {
+    text-align: center;
+    max-width:800px;
+    height:650px;
+    margin:auto;
+    border-radius: 20px 20px 0px 0px;
+    padding:15px;
+    background-color: white;
+
+}
+
+#inicio {
+
+    text-align: center;
+    
+}
+
+#fimJogo {
+    text-align: center;
+}
+
+img {
+
+    width: 200px; 
+    text-align: center;
+    
+    display: inline-block;
+    
+    margin-bottom:50px;
+}
