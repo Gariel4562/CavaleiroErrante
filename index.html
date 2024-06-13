@@ -63,8 +63,9 @@
         let nivel = 1;
         let estadoAtual = "inicio";
         let hpJogador, hpInimigo, forcaJogador, forcaInimigo;
-        const hpMaxJogador = 150;
+        const hpMaxJogador = 100;
         let pontosAtaqueGanhos = 0;
+        let pontosVidaGanhos = 0;
         let inimigosForcaIncremento = {}; // Objeto para armazenar a força extra dos inimigos
         const imagensInimigos = [
             "Enemies/bandidoInimigo1.png",
@@ -108,16 +109,17 @@
 
         function iniciarJogo() {
             nivel = 1;
-            hpJogador = hpMaxJogador;
+            hpJogador = 100 + pontosVidaGanhos;
             forcaJogador = 3 + pontosAtaqueGanhos; // Adiciona pontos de ataque ganhos
+
             estadoAtual = "batalha";
             iniciarBatalha();
             mostrarPagina('batalha');
         }
 
         function iniciarBatalha() {
-            hpInimigo = 100 + nivel * 50; // HP do inimigo aumenta a cada nível
-            forcaInimigo = 2 + nivel * 2 + (inimigosForcaIncremento[nivel] || 0); // Força do inimigo aumenta a cada nível, incluindo incremento
+            hpInimigo = 100 + nivel * 25; // HP do inimigo aumenta a cada nível
+            forcaInimigo = 2 + nivel * 3 + (inimigosForcaIncremento[nivel] || 0); // Força do inimigo aumenta a cada nível, incluindo incremento
             atualizarStatus();
         }
 
@@ -132,6 +134,7 @@
                 estadoAtual = "vestiario";
                 nivel++;
                 pontosAtaqueGanhos++; // Ganha um ponto de ataque
+                pontosVidaGanhos++; // Ganha pontos de vida
                 mostrarPagina('vestiario');
                 return;
             }
@@ -153,7 +156,7 @@
 
         function voltarParaCasa() {
             estadoAtual = "casa";
-            hpJogador = hpMaxJogador; // Regenera o HP do jogador
+            hpJogador = hpMaxJogador + pontosVidaGanhos; // Regenera o HP do jogador
             mostrarPagina('casa');
         }
 
@@ -204,6 +207,13 @@
             }
             atualizarStatus();
         }
+
+        
+
     </script>
+    
+
+    <script src="index.js"></script>
+
 </body>
 </html>
