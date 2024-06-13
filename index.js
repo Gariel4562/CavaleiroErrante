@@ -1,54 +1,79 @@
-// save
+// Function to save the game state
+function salvarJogo() {
+    const gameState = {
+        nivel: nivel,
+        estadoAtual: estadoAtual,
+        hpJogador: hpJogador,
+        hpInimigo: hpInimigo,
+        forcaJogador: forcaJogador,
+        forcaInimigo: forcaInimigo,
+        pontosAtaqueGanhos: pontosAtaqueGanhos,
+        pontosVidaGanhos: pontosVidaGanhos,
+        inimigosForcaIncremento: inimigosForcaIncremento
+    };
 
-let gameState = {
-    playerPosition: { x: 5, y: 10 },
-    score: 150,
-    level: 2
-};
-
-function saveGame(state) {
-    localStorage.setItem('savegame', JSON.stringify(state));
-    console.log("Jogo salvo com sucesso!");
+    localStorage.setItem('gameState', JSON.stringify(gameState));
 }
 
-function loadGame() {
-    let state = localStorage.getItem('savegame');
-    if (state) {
-        state = JSON.parse(state);
-        console.log("Jogo carregado com sucesso!");
-        return state;
+// Function to load the game state
+function carregarJogo() {
+    const savedState = localStorage.getItem('gameState');
+
+    if (savedState) {
+        const gameState = JSON.parse(savedState);
+        nivel = gameState.nivel;
+        estadoAtual = gameState.estadoAtual;
+        hpJogador = gameState.hpJogador;
+        hpInimigo = gameState.hpInimigo;
+        forcaJogador = gameState.forcaJogador;
+        forcaInimigo = gameState.forcaInimigo;
+        pontosAtaqueGanhos = gameState.pontosAtaqueGanhos;
+        pontosVidaGanhos = gameState.pontosVidaGanhos;
+        inimigosForcaIncremento = gameState.inimigosForcaIncremento;
+
+        // Show the correct page based on loaded state
+        mostrarPagina(estadoAtual);
+        atualizarStatus();
     } else {
-        console.log("Nenhum jogo salvo encontrado.");
-        return null;
+        // Default behavior when no saved state is found
+        mostrarPagina('inicio');
     }
 }
 
-function displayGameState(state) {
-    document.getElementById('playerPosition').textContent = `Posição do jogador: (${state.playerPosition.x}, ${state.playerPosition.y})`;
-    document.getElementById('score').textContent = `Pontos: ${state.score}`;
-    document.getElementById('level').textContent = `Nível: ${state.level}`;
-}
+// Add event listener to window to load saved game on page load
+window.addEventListener('load', carregarJogo);
 
-function updateGame() {
-    // Função para atualizar o jogo, por exemplo, mover o jogador
-    gameState.playerPosition.x += 1;  // Apenas um exemplo
-    gameState.score += 10;            // Apenas um exemplo
-    displayGameState(gameState);
-}
-
-window.onload = function() {
-    let loadedGameState = loadGame();
-    if (loadedGameState) {
-        gameState = loadedGameState;
+// Save game state automatically when transitioning between certain states
+function transicaoEstado() {
+    if (estadoAtual === 'batalha' || estadoAtual === 'casa') {
+        salvarJogo();
     }
-    displayGameState(gameState);
-};
+}
 
-window.onbeforeunload = function() {
-    saveGame(gameState);
-};
+// Update the game to use `transicaoEstado` where needed (e.g., in `sairDeCasa`, `proximoAdversario`)
 
-// Salva o jogo a cada 30 segundos
-setInterval(function() {
-    saveGame(gameState);
-}, 30000);
+// Example:
+function sairDeCasa() {
+    estadoAtual = 'batalha';
+    transicaoEstado(); // Automatically save when leaving home
+    atualizarStatus();
+    mostrarPagina('batalha');
+}
+
+// Ensure that other functions where game state changes occur also call `transicaoEstado` appropriately
+
+// Function to reset game state (for debugging or other purposes)
+function resetarJogo() {
+    localStorage.removeItem('gameState');
+    nivel = 1;
+    estadoAtual = 'inicio';
+    hpJogador = 100;
+    hpInimigo = 0;
+    forcaJogador = 0;
+    forcaInimigo = 0;
+    pontosAtaqueGanhos = 0;
+    pontosVidaGanhos = 0;
+    inimigosForcaIncremento = {};
+    mostrarPagina('inicio');
+    atualizarStatus();
+}
