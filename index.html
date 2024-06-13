@@ -58,7 +58,7 @@
     </div>
 
     <script>
-        const maxNivel = 15; // Defina o número máximo de inimigos
+        const maxNivel = 17; // Defina o número máximo de inimigos
         let nivel = 1;
         let estadoAtual = "inicio";
         let hpJogador, hpInimigo, forcaJogador, forcaInimigo;
@@ -82,6 +82,8 @@
             "Enemies/fight13.png",
             "Enemies/fight14.png",
             "Enemies/fight15.png",
+            "Enemies/fight16.png",
+            "Enemies/fight17.png",
 
             // Adicione mais URLs de imagens conforme necessário para cada nível
         ];
@@ -101,6 +103,8 @@
             "Enemies/gameOverSuccu.png",
             "Enemies/gameOver14.png",
             "Enemies/gameOver15.png",
+            "Enemies/gameOver16.png",
+            "Enemies/gameOver17.png",
 
             // Adicione mais URLs de imagens de Game Over conforme necessário para cada nível
         ];
@@ -119,7 +123,9 @@
             "inimigo 12: Vampira",
             "inimigo 13: Súcubo",
             "inimigo 14: Dragão do Mal",
-            "inimigo 15: Medusa"
+            "inimigo 15: Medusa",
+            "inimigo 16: Heitor de Troia",
+            "inimigo 17: Homem Aranha",
             // Adicione mais nomes conforme necessário
         ];
 
@@ -135,7 +141,7 @@
 
         function iniciarBatalha() {
             hpInimigo = 100 + nivel * 50; // HP do inimigo aumenta a cada nível
-            forcaInimigo = 2 + nivel * 5 + (inimigosForcaIncremento[nivel] || 0); // Força do inimigo aumenta a cada nível, incluindo incremento
+            forcaInimigo = 2 + nivel * 15 + (inimigosForcaIncremento[nivel] || 0); // Força do inimigo aumenta a cada nível, incluindo incremento
             atualizarStatus();
         }
 
