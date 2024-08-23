@@ -40,12 +40,14 @@
     </div>
     <div id="vestiario" class="pagina">
         <h1>Vestiário</h1>
+        <img src="Imagens/vestiario.png" alt="Imagem preparando-se para a próxima batalha">
         <p><button onclick="proximoAdversario()">Próximo Adversário</button></p>
     </div>
     <div id="casa" class="pagina">
         <h1>Casa</h1>
         <p id="statusCasa"></p>
-        <p><button onclick="sairDeCasa()">Sair de Casa</button></p>
+        <img src="Imagens/protagonistaDescansando.png" alt="Imagem de descanso">
+        <p><button onclick="sairDeCasa()">Voltar para a batalha</button></p>
     </div>
     <div id="gameOver" class="pagina">
         <h1>Game Over</h1>
@@ -54,11 +56,12 @@
     </div>
     <div id="fimJogo" class="pagina">
         <h1>Parabéns! Você venceu todos os adversários!</h1>
+        <img src="Imagens/protagonistaVence.png" alt="Imagem da Vitória">
         <p><button onclick="reiniciarJogo()">Reiniciar Jogo</button></p>
     </div>
 
     <script>
-        const maxNivel = 17; // Defina o número máximo de inimigos
+        const maxNivel = 19; // Defina o número máximo de inimigos
         let nivel = 1;
         let estadoAtual = "inicio";
         let hpJogador, hpInimigo, forcaJogador, forcaInimigo;
@@ -84,6 +87,8 @@
             "Enemies/fight15.png",
             "Enemies/fight16.png",
             "Enemies/fight17.png",
+            "Enemies/fight18.png",
+            "Enemies/fight19.png",
 
             // Adicione mais URLs de imagens conforme necessário para cada nível
         ];
@@ -105,6 +110,8 @@
             "Enemies/gameOver15.png",
             "Enemies/gameOver16.png",
             "Enemies/gameOver17.png",
+            "Enemies/gameOver18.png",
+            "Enemies/gameOver19.png",
 
             // Adicione mais URLs de imagens de Game Over conforme necessário para cada nível
         ];
@@ -119,13 +126,17 @@
             "Oitavo adversário: Escuridão",
             "Nono adversário: Brutos",
             "Décimo adversário: Julio Cesar",
-            "inimigo 11: Lobisomem",
-            "inimigo 12: Vampira",
-            "inimigo 13: Súcubo",
-            "inimigo 14: Dragão do Mal",
-            "inimigo 15: Medusa",
-            "inimigo 16: Heitor de Troia",
-            "inimigo 17: Homem Aranha",
+            "Inimigo 11: Lobisomem",
+            "Inimigo 12: Vampira",
+            "Inimigo 13: Súcubo",
+            "Inimigo 14: Dragão do Mal",
+            "Inimigo 15: Medusa",
+            "Inimigo 16: Heitor de Troia",
+            "Inimigo 17: Homem Aranha",
+            "Inimigo 18: Xena",
+            "Inimigo 19: Perseu",
+
+
             // Adicione mais nomes conforme necessário
         ];
 
